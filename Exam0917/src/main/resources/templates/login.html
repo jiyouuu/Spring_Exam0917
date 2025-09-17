@@ -20,13 +20,10 @@
             <h2 class="text-3xl font-extrabold text-amber-900">비밀 서재</h2>
             <p class="mt-2 text-amber-700">당신의 지식을 증명하세요.</p>
         </div>
-        
-        <!--  -->
-        <div class="flex justify-center">
-            <img th:src="@{/images/tango.png}" alt="Tango" class="w-32 h-32"/> <!-- 탱고 이미지 경로 (예시) -->
-        </div>
+   
 
         <form th:action="@{/login}" method="post" class="space-y-6">
+			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
             <div th:if="${param.error}" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative" role="alert">
                 <strong class="font-bold">이런!</strong>
                 <span class="block sm:inline">아이디 또는 비밀번호가 올바르지 않습니다.</span>

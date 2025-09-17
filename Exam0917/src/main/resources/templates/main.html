@@ -19,7 +19,7 @@
             <div>
                 <span sec:authentication="name"></span>님 환영합니다!
                  <a sec:authorize="hasRole('ADMIN')" href="/admin" class="ml-4 px-3 py-1 bg-amber-600 text-white rounded">관리자 페이지</a>
-                <a href="/members/logout" class="ml-4 px-3 py-1 bg-gray-500 text-white rounded">로그아웃</a>
+                <a href="/logout" class="ml-4 px-3 py-1 bg-gray-500 text-white rounded">로그아웃</a>
             </div>
         </header>
 
@@ -35,14 +35,14 @@
 
         <!-- 도서 목록 -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div th:each="book : ${paging.content}" class="card rounded-lg p-6 shadow">
+            <div th:each="book : ${paging}" class="card rounded-lg p-6 shadow">
                 <h2 class="text-2xl font-bold" th:text="${book.title}">책 제목</h2>
                 <p class="text-gray-600 mb-4" th:text="${book.author}">저자</p>
                 
                 <!-- 서평 목록 -->
                 <div class="space-y-3">
                      <div th:each="review : ${book.reviews}" class="bg-gray-50 p-3 rounded">
-                        <p th:text="${review.content}">서평 내용</p>
+                        <p th:text="${review}">서평 내용</p>
                         <div class="text-xs text-right flex justify-end items-center mt-1">
                             <span th:text="|작성자: ${review.member.username} (${review.member.faction.displayName})|"></span>
                             <button th:data-review-id="${review.id}" 
@@ -58,7 +58,7 @@
         </div>
 
         <!-- 페이징 -->
-        <div th:if="${!paging.isEmpty()}" class="mt-8 flex justify-center items-center">
+      <!--  <div th:if="${!paging.isEmpty()}" class="mt-8 flex justify-center items-center">
             <ul class="flex">
                 <li th:if="${paging.hasPrevious()}">
                     <a th:href="@{|/books?page=${paging.number-1}&searchType=${param.searchType}&keyword=${param.keyword}|}" class="px-3 py-1 border rounded-l">이전</a>
@@ -73,7 +73,7 @@
                     <a th:href="@{|/books?page=${paging.number+1}&searchType=${param.searchType}&keyword=${param.keyword}|}" class="px-3 py-1 border rounded-r">다음</a>
                 </li>
             </ul>
-        </div>
+        </div> -->
     </div>
 <script>
 async function toggleLike(button) {
