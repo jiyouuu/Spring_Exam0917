@@ -1,9 +1,7 @@
 package com.example.demo.book;
 
 import java.util.List;
-import java.util.Set;
 
-import com.example.demo.members.Member;
 import com.example.demo.review.Review;
 
 import jakarta.persistence.*;

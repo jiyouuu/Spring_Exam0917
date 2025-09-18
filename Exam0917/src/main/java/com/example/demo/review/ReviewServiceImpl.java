@@ -1,7 +1,9 @@
 package com.example.demo.review;
 
 
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.book.Book;
 import com.example.demo.members.Member;
@@ -41,6 +43,26 @@ public class ReviewServiceImpl implements ReviewService{
 		}
 		this.reviewRepository.save(review);
 		return new LikeResponseDto(review.getLikeCount(), liked);
+	}
+
+	@Override
+	public Review modifyReview(Long id, ReviewRequestDto requestDto) {
+		Review r = this.reviewRepository.findById(id).get();
+		r.update(requestDto.getContent());
+		return this.reviewRepository.save(r);
+	}
+
+	@Transactional
+	@Override
+	public void deleteReview(Long id, Member currentUser) {
+		Review r = this.reviewRepository.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 리뷰입니다. "));
+		
+		if(!r.getMember().equals(currentUser)) {
+			throw new AccessDeniedException("본인 서평만 삭제 가능!~!");
+		}
+		
+		this.reviewRepository.delete(r);
 	}
 
 	

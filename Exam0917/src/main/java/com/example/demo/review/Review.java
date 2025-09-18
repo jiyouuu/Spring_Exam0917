@@ -57,6 +57,11 @@ public class Review {
 	public void decreaseLikeCount() {
 		this.likeCount--;	
 	}
+	
+	
+	public void update(String content) {
+		this.content = content;
+	}
 
 	
 }

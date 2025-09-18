@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.example.demo.members.Member;
 import com.example.demo.members.MemberRepository;
@@ -80,6 +82,7 @@ public class BookController {
 
 		Member m = this.memberRepository.findByUsername(principal.getName())
 				.orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다"));
+		
 		model.addAttribute("currentUser", m);
 		model.addAttribute("paging", books);
 		model.addAttribute("bookSearchDto", bookSearchDto);
@@ -108,6 +111,7 @@ public class BookController {
 		
 		return "redirect:/";
 	}
+	
 	
 	
 	
