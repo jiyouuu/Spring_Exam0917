@@ -38,4 +38,6 @@ public class MemberController {
 	public String logout() {
 		return "redirect:/";
 	}
+	
+	
 }

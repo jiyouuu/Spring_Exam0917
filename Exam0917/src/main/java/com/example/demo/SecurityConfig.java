@@ -20,20 +20,21 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 		http
-			.authorizeHttpRequests(auth -> auth
-					  .requestMatchers("/login", "/signup", "/css/**", "/js/**", "/images/**").permitAll() // 공개 먼저
+			.authorizeHttpRequests((authorize)-> authorize
+					  .requestMatchers("/login", "/signup", "/css/**", "/js/**", "/images/**","/h2-console/**").permitAll() // 공개 먼저
 			          .requestMatchers("/admin/**").hasRole(UserRole.ADMIN.name())
 			          .requestMatchers("/").authenticated())  // 메인페이지는 로그인 필요
 			.csrf(csrf  -> csrf
 					.ignoringRequestMatchers("/h2-console/**"))
+			// csrf.disable() 은 개발용 
 			.headers((headers) -> headers
 					.addHeaderWriter(new XFrameOptionsHeaderWriter(XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)))
 			.formLogin((formLogin) -> formLogin
 					.loginPage("/login")
-					.defaultSuccessUrl("/")
-		    		.permitAll())
+					.defaultSuccessUrl("/"))
 			.logout((logout)->logout
-					.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+					// .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+					.logoutUrl("/logout")
 					.logoutSuccessUrl("/")
 					.invalidateHttpSession(true));
 		return http.build();
