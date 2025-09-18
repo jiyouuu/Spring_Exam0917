@@ -1,5 +1,9 @@
 package com.example.demo.members;
 
+import java.util.Objects;
+
+
+
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -36,8 +40,28 @@ public class Member {
 		this.role = role;
 		this.faction = faction;
 	}
+	
+	@Override
+	public boolean equals(Object o) {
+		// 객체 맨날 비교하기 귀찮아서 객체 비교를 위해 정의해두는 메서드 
+		if(this == o) return true;
+		if(o == null || getClass() != o.getClass()) return false;
+		
+		Member member = (Member) o;
+		return Objects.equals(id, member.id);
+	}
+	
+	@Override
+	public int hashCode() {  // 검색속도 높일라고 썼다. 
+	    return Objects.hash(id);
+	}
 
 }
+
+
+
+
+
 
 
 

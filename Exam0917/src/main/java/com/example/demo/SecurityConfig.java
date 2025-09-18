@@ -23,7 +23,7 @@ public class SecurityConfig {
 			.authorizeHttpRequests((authorize)-> authorize
 					  .requestMatchers("/login", "/signup", "/css/**", "/js/**", "/images/**","/h2-console/**").permitAll() // 공개 먼저
 			          .requestMatchers("/admin/**").hasRole(UserRole.ADMIN.name())
-			          .requestMatchers("/").authenticated())  // 메인페이지는 로그인 필요
+			          .requestMatchers("/", "/books/**", "/api/**").authenticated())  // 메인페이지는 로그인 필요
 			.csrf(csrf  -> csrf
 					.ignoringRequestMatchers("/h2-console/**"))
 			// csrf.disable() 은 개발용 
@@ -32,10 +32,10 @@ public class SecurityConfig {
 			.formLogin((formLogin) -> formLogin
 					.loginPage("/login")
 					.loginProcessingUrl("/login")
-					.defaultSuccessUrl("/"))
+					.defaultSuccessUrl("/", true))
+			
 			.logout((logout)->logout
-					// .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-					.logoutUrl("/logout")
+					.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 					.logoutSuccessUrl("/")
 					.invalidateHttpSession(true));
 		return http.build();

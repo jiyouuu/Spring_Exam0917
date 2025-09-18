@@ -13,6 +13,31 @@
         <h1 class="text-3xl font-bold mb-6">관장 전용 리포트: 논쟁의 도서</h1>
         <p class="mb-4 text-gray-600">'댕댕파'와 '냥냥파' 모두에게서 서평을 받은, 가장 뜨거운 토론의 중심에 있는 도서 목록입니다.</p>
 
+		<!-- 책 등록 폼 -->
+		   <div class="mb-6 p-4 border rounded bg-gray-50">
+		       <h2 class="text-xl font-semibold mb-3">새 책 등록</h2>
+		       <form th:action="@{/admin/books}" th:object="${bookDto}" method="post" class="space-y-4">
+		           <div>
+		               <label for="title" class="block font-medium mb-1">책 제목</label>
+		               <input id="title" th:field="*{title}" type="text"
+		                      class="w-full p-2 border rounded" placeholder="책 제목 입력">
+		               <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="text-red-600 text-sm mt-1"></p>
+		           </div>
+		           <div>
+		               <label for="author" class="block font-medium mb-1">저자</label>
+		               <input id="author" th:field="*{author}" type="text"
+		                      class="w-full p-2 border rounded" placeholder="저자 입력">
+		               <p th:if="${#fields.hasErrors('author')}" th:errors="*{author}" class="text-red-600 text-sm mt-1"></p>
+		           </div>
+		           <button type="submit"
+		                   class="bg-amber-800 text-white px-4 py-2 rounded hover:bg-amber-900 transition-colors">
+		               책 등록
+		           </button>
+		       </form>
+		   </div>
+		
+				 	  
+		<!-- 논쟁적인 도서 테이블 -->	  
         <div class="overflow-x-auto">
             <table class="min-w-full bg-white border">
                 <thead class="bg-amber-800 text-white">
@@ -34,7 +59,7 @@
                 </tbody>
             </table>
         </div>
-        <a href="/books" class="mt-6 inline-block bg-gray-500 text-white px-4 py-2 rounded">서재로 돌아가기</a>
+        <a href="/" class="mt-6 inline-block bg-gray-500 text-white px-4 py-2 rounded">서재로 돌아가기</a>
     </div>
 </body>
 </html>
