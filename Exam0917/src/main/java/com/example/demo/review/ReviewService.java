@@ -10,6 +10,6 @@ public interface ReviewService {
 	public Review findReview(Long id);
 	public LikeResponseDto recommend(Review review, Member member);
 	public Review modifyReview(Long id, ReviewRequestDto requestDto);
-	public void deleteReview(Long id, Member currentUser);
+	public void deleteReview(Long id, Member member);
 
 }

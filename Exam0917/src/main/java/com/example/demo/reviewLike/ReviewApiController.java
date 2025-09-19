@@ -57,12 +57,17 @@ public class ReviewApiController {
 		return ResponseEntity.ok(new ReviewResponseDto(review.getContent(), review.getMember()));
 	}
 	
-	// th:data-uri="@{|/review/delete/${review.id}|}" 
+	
+	
+
 	@PreAuthorize("isAuthenticated()")
 	@DeleteMapping("/review/delete/{id}")
 	public ResponseEntity<Void> deleteReview(@PathVariable(value = "id") Long id, 
-			@AuthenticationPrincipal Member currentUser){
-		this.reviewService.deleteReview(id, currentUser);
+			Principal principal){
+		Member member = this.memberRepository.findByUsername(principal.getName())
+				.orElseThrow(()-> new RuntimeException("사용자를 찾을 수 없습니다."));
+		
+		this.reviewService.deleteReview(id,member);
 		return ResponseEntity.noContent().build();
 	}
 	

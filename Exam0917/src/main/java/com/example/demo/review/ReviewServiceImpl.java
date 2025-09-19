@@ -54,11 +54,11 @@ public class ReviewServiceImpl implements ReviewService{
 
 	@Transactional
 	@Override
-	public void deleteReview(Long id, Member currentUser) {
+	public void deleteReview(Long id, Member member) {
 		Review r = this.reviewRepository.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 리뷰입니다. "));
 		
-		if(!r.getMember().equals(currentUser)) {
+		if(!r.getMember().equals(member)) {
 			throw new AccessDeniedException("본인 서평만 삭제 가능!~!");
 		}
 		

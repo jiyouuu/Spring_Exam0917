@@ -166,7 +166,9 @@ async function editReview(button){
 	const reviewId = button.getAttribute('data-review-id');
 	const reviewDiv = button.closest('.bg-gray-50');
 	const contentP = reviewDiv.querySelector('p');
-	
+	const token = document.querySelector('meta[name="_csrf"]').getAttribute("content");
+	const header = document.querySelector('meta[name="_csrf_header"]').getAttribute("content");
+		
 	// 기존 텍스트 가져오기 
 	const currentText = contentP.textContent;
 	
@@ -182,10 +184,14 @@ async function editReview(button){
 	saveBtn.className = 'text-xs px-2 py-1 border rounded bg-red-400 text-white hover:bg-red-400 transition-colors';
 	saveBtn.onclick = async () =>{
 		const updateText = textarea.value;
-		await fetch(`/api/reviews/modify/{reviewId}`,{
+		await fetch(`/api/review/modify/${reviewId}`,{
 			method:'PUT',
-			headers: {'Content-Type' : 'application/json'},
-			body:JSON.stringify({content: updateText})
+			headers: {
+			    'Content-Type': 'application/json',
+			    [header]: token
+			 },
+			body:JSON.stringify({content: updateText}),
+			credentials: 'same-origin'   // ✅ 세션 쿠키 같이 전송
 		});
 		
 		// UI 업데이트
@@ -201,11 +207,16 @@ async function editReview(button){
 
 async function deleteReview(button){
 	const reviewId = button.getAttribute('data-review-id');
+	const token = document.querySelector('meta[name="_csrf"]').getAttribute("content");
+	const header = document.querySelector('meta[name="_csrf_header"]').getAttribute("content");
 	
 	if(!confirm("정말 삭제하시겠습니까?")) return;
 
 	const response = await fetch(`/api/review/delete/${reviewId}`, {
-		method : "DELETE"
+		method: "DELETE",
+		headers: {
+		  [header]: token
+		}
 	});
 	
 	if(response.ok){
