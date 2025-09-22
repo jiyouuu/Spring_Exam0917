@@ -56,8 +56,6 @@ public class BookService {
 		if("title".equals(searchType)) {
 			return this.bookRepository.findByTitleContaining(lower_Keyword, pageable);
 		} else if("author".equals(searchType)) {
-			Page<Book> a = this.bookRepository.findByAuthorContaining(lower_Keyword, pageable);
-			System.out.println(a);
 			return this.bookRepository.findByAuthorContaining(lower_Keyword, pageable);
 			
 		} else {
